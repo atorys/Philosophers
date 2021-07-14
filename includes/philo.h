@@ -2,11 +2,21 @@
 # define PHILO_H
 
 # include <stdio.h>
+# include <unistd.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <pthread.h>
 
-typedef struct s_pholosopher
+# define HELP "\033[0;33mError!!!\nTry this: \033[0;39m./philo  number_of_philosophers  \
+time_to_die  time_to_eat  time_to_sleep  number_of_times_each_philo_must_eat\n"
+# define MALLOCERROR "\033[0;33mMalloc failed."
+# define TAKEFORK "has taken a fork\n"
+# define EAT "is eating\n"
+# define SLEEP "is sleeping\n"
+# define THINK "is thinking\n"
+# define DIE "\033[0;41mdied.\n"
+
+typedef struct s_philosopher
 {
 	unsigned int	id;
 	pthread_mutex_t fork_left;
@@ -19,5 +29,6 @@ typedef struct s_info
 }				t_info;
 
 long long	ft_atoi(const char *str);
-
+int			error_case(char *message);
+int			valid_args(int argc, char **argv);
 #endif

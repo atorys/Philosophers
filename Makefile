@@ -10,7 +10,8 @@ HEADERS	=	philo.h
 
 #--------------------FILES--------------------------/
 
-FILES =
+FILES =		main.c \
+			utils.c
 O_FILES = 	$(addprefix objects/, $(FILES:.c=.o))
 
 #-----------ADDITIONAL--------------------------------/
