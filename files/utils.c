@@ -22,7 +22,8 @@ int	valid_args(int argc, char **argv)
 			return (error_case("\033[0;33mToo many philosophers ;(\n"));
 		if (ft_atoi(*argv) > 2147483647 || ft_atoi(*argv) == 0)
 			return (error_case("\033[0;33m Invalid arguments ;(\n"));
-		while (*(*argv)) {
+		while (*(*argv))
+		{
 			if (!(**argv >= '0' && **argv <= '9'))
 				return (error_case("\033[0;33mTry another parameters ;(\n"));
 			(*argv)++;
@@ -47,4 +48,12 @@ long long	ft_atoi(const char *str)
 	while (*str >= '0' && *str <= '9' && *str)
 		digit = (digit * 10) + (*str++ - '0');
 	return (flag * digit);
+}
+
+long	current_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((long)(time.tv_sec * 1000 + time.tv_usec / 1000));
 }
