@@ -11,6 +11,7 @@ HEADERS	=	philo.h
 #--------------------FILES--------------------------/
 
 FILES =		main.c \
+			initialization.c \
 			utils.c
 O_FILES = 	$(addprefix objects/, $(FILES:.c=.o))
 
@@ -18,6 +19,7 @@ O_FILES = 	$(addprefix objects/, $(FILES:.c=.o))
 
 CFLAGS =	-Wall -Wextra -Werror -O3
 W =			\033[38;2;255;255;255
+G =			\033[38;2;0;200;0
 P =			\033[38;2;255;74;150
 P2 =		\033[38;2;200;74;180
 P3 =		\033[38;2;150;74;210
@@ -32,7 +34,9 @@ all	:		$(NAME)
 
 $(NAME) :	objects $(O_FILES)
 			@$(CC) $(FLAGS) $(O_FILES) -o $(NAME)
-			@clear ;
+			@clear ; echo "$(G);1mcompiling"; sleep 0.2; clear; echo "compiling ."; sleep 0.2 ;clear ; echo "compiling . . "; sleep 0.2; clear ; echo "compiling . . ."; sleep 0.4; clear;
+			@echo "$(G);1m                                      Philosophers"
+			@echo "                            [ press CMD+V to start simulation]\n";
 			@printf %s ./$(NAME) | pbcopy
 
 
