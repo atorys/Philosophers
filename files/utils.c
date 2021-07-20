@@ -7,12 +7,12 @@ int	error_case(char *message)
 	i = 0;
 	while (message[i])
 		i++;
-	return ((int)write(1, message, i));
+	return ((int)write(2, message, i));
 }
 
 int	valid_args(int argc, char **argv)
 {
-	int index;
+	int	index;
 
 	if (argc != 5 && argc != 6)
 		return (0);
@@ -47,10 +47,20 @@ long long	ft_atoi(const char *str)
 	return (flag * digit);
 }
 
-long	current_time(void)
+unsigned long	current_time(void)
 {
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return ((long)(time.tv_sec * 1000 + time.tv_usec / 1000));
+	return ((unsigned long)(time.tv_sec * 1000 + time.tv_usec / 1000));
 }
+
+unsigned long	table_time(unsigned long start_time)
+{
+	return ((unsigned long)(start_time - current_time()));
+}
+
+//void	pause(unsigned int time)
+//{
+//	while (table_time())
+//}
