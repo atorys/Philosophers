@@ -57,7 +57,7 @@ unsigned long	current_time(void)
 
 unsigned long	table_time(unsigned long start_time)
 {
-	return ((unsigned long)(start_time - current_time()));
+	return (current_time() - start_time);
 }
 
 //void	pause(unsigned int time)

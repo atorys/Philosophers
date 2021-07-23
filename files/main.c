@@ -16,8 +16,10 @@ int	main(int argc, char **argv)
 //	pthread_create(&table.philosophers[0]->philosopher, NULL, run, &table.philosophers[0]);
 	while (++argc < table.number)
 	{
-		table.philosophers[argc]->start_point = current_time();
-		pthread_create(&table.philosophers[argc]->philosopher, NULL, run, table.philosophers[argc]);
+		printf("preparing %d philo\n", argc+1);
+		table.philosophers[argc].start_point = current_time();
+		table.philosophers[argc].philosopher = NULL;
+		pthread_create(&table.philosophers[argc].philosopher, NULL, run, &table.philosophers[argc]);
 	}
 	return (1);
 }

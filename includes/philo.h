@@ -32,7 +32,7 @@ typedef struct s_philosopher
 
 struct s_info
 {
-	t_philosopher	**philosophers;
+	t_philosopher	*philosophers;
 	pthread_mutex_t	*forks;
 
 	pthread_mutex_t	message;
