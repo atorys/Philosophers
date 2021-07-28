@@ -60,7 +60,11 @@ unsigned long	table_time(unsigned long start_time)
 	return (current_time() - start_time);
 }
 
-//void	pause(unsigned int time)
-//{
-//	while (table_time())
-//}
+void	upause(unsigned int time)
+{
+	unsigned int	start;
+
+	start = current_time();
+	while (current_time() - start < time)
+		usleep(1);
+}

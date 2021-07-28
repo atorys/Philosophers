@@ -19,8 +19,9 @@ O_FILES = 	$(addprefix objects/, $(FILES:.c=.o))
 #-----------ADDITIONAL--------------------------------/
 
 CFLAGS =	-Wall -Wextra -Werror -O3
-W =			\033[38;2;255;255;255
-WD =		\033[38;2;100;100;100
+W =			\033[38;2;184;140;230
+WHITE =		\033[38;2;255;255;255
+WD =		\033[38;2;167;183;65
 P = 		"\\"
 
 #-----------RULES-------------------------------------/
@@ -32,7 +33,7 @@ all	:		$(NAME)
 
 $(NAME) :	objects $(O_FILES)
 			@$(CC) $(FLAGS) $(O_FILES) -o $(NAME)
-			@clear ; echo "$(W);1m\n                                   compiling"; sleep 0.2; clear; echo "\n                                   compiling ."; sleep 0.2 ;clear ; echo "\n                                   compiling . . "; sleep 0.2; clear ; echo "\n                                   compiling . . .\n"; sleep 0.8;
+			@clear ; echo "$(WHITE);1m\n                                   compiling"; sleep 0.2; clear; echo "\n                                   compiling ."; sleep 0.2 ;clear ; echo "\n                                   compiling . . "; sleep 0.2; clear ; echo "\n                                   compiling . . .\n"; sleep 0.8;
 			@echo "$(W);1m               /\        /\                            /\  ";
 			@echo "       ___    / /_      / / ___    ____  ___   ___    / /_   ____  ___     ____ ";
 			@echo "      / __ \ / __ \ /\ / // __ \  / /  / __ \ / __ \ / __ \ /\__  / __ \  / /  ";
@@ -40,7 +41,7 @@ $(NAME) :	objects $(O_FILES)
 			@echo "    /  __ //_/$(WD);1m /$(W);1m\//_//_/ \____//____/ \____//  __ //_/ $(WD);1m/$(W);1m\/ \___//_/\__\/____/$(WD);1m// ";
 			@echo "   $(W);1m/ /$(WD);1m$(P)$(P)$(P)$(P)$(P)$(P)$(P) $(P)$(P)$(P)$(P)$(P)/  $(P)$(P)$(P)$(P) $(P)$(P)$(P)$(P)$(P)$(P)$(P)/ $(P)$(P)$(P)$(P)$(P)$(P)$(P)$(P)$(P) $(P)$(P)$(P)$(P)$(P)$(P)$(P)$(P)$(P)/ $(P)$(P)$(P)$(P)$(P) $(W);1m/ /$(WD);1m$(P)$(P)$(P)$(P)$(P)$(P)$(P) $(P)$(P)$(P)$(P)$(P)/  $(P)$(P)$(P) $(P)$(P)$(P)$(P)$(P)$(P)$(P) $(P)$(P)$(P) $(P)$(P)$(P)$(P)$(P) $(P)$(P)$(P)$(P)$(P)$(P)$(P)$(P)$(P)/";
 			@echo "   $(W);1m\/$(WD);1m//                                    $(W);1m\/$(WD);1m// ";
-			@echo "   $(W);1m\n                     [ press CMD+V to start simulation]\n";
+			@echo "   $(WHITE);1m\n                     [ press CMD+V to start simulation]\n";
 			@printf %s ./$(NAME) | pbcopy
 
 
