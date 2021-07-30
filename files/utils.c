@@ -55,16 +55,13 @@ unsigned long	current_time(void)
 	return ((unsigned long)(time.tv_sec * 1000 + time.tv_usec / 1000));
 }
 
-unsigned long	table_time(unsigned long start_time)
+void	put_message(unsigned int id, char *message, t_process	*table, char *color)
 {
-	return (current_time() - start_time);
-}
-
-void	upause(unsigned int time)
-{
-	unsigned int	start;
-
-	start = current_time();
-	while (current_time() - start < time)
-		usleep(1);
+	pthread_mutex_lock(&table->message);
+	printf("%-5lu  %s%u\033[0m  %5s", current_time() - table->start_time, color, id, message);
+//	printf("%s%-5lu  %u  %5s", color, current_time() - table->start_time, id, message);
+	if (!table->is_somebody_dead)
+		pthread_mutex_unlock(&table->message);
+	else
+		printf("hey stop printing bitch");
 }

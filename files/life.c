@@ -1,54 +1,53 @@
 #include "includes/philo.h"
 
-static void eating(t_philosopher *x)
+static void	eating(t_philo *x)
 {
 	pthread_mutex_lock(x->fork_right);
-	put_message(x->id, TAKEFORK, x->table);
+	put_message(x->id, TAKEFORKR, x->table, "\033[38;2;248;130;55m");
 	pthread_mutex_lock(x->fork_left);
-	put_message(x->id, TAKEFORK, x->table);
-	put_message(x->id, EAT, x->table);
+	put_message(x->id, TAKEFORKL, x->table, "\033[38;2;184;140;230m");
 	x->save_point = current_time();
-	while (current_time() - x->save_point <= x->table->time2eat) {
-		usleep(1);
+	put_message(x->id, EAT, x->table, "\033[38;2;167;183;65m");
+	while (!x->table->is_somebody_dead && current_time() - x->save_point <= x->table->time2eat)
+	{
+		if (current_time() - x->save_point > x->table->time2die)
+			x->table->is_somebody_dead = true;
+//		usleep(1);
 	}
-//	upause(x->table->time2eat);
+	x->plates_was_eaten++;
 	pthread_mutex_unlock(x->fork_left);
 	pthread_mutex_unlock(x->fork_right);
 }
 
-static void sleeping(t_philosopher *x)
+static void	sleeping(t_philo *x)
 {
 	unsigned long	pseudosleep;
 
 	pseudosleep = current_time();
-	put_message(x->id, SLEEP, x->table);
-	while (current_time() - pseudosleep <= x->table->time2sleep)
-		usleep(1);
-//	upause(x->table->time2sleep);
-}
-static void thinking(t_philosopher *x)
-{
-	put_message(x->id, THINK, x->table);
+	put_message(x->id, SLEEP, x->table, "\033[38;2;240;130;200m");
+	while (!x->table->is_somebody_dead && current_time() - pseudosleep <= x->table->time2sleep)
+		if (current_time() - x->save_point > x->table->time2die)
+			x->table->is_somebody_dead = true;
 }
 
-void	*run(void *philosopher)
+static void	thinking(t_philo *x)
 {
-	t_philosopher	*x;
+	if (!x->table->is_somebody_dead)
+		put_message(x->id, THINK, x->table, "\033[38;2;100;160;187m");
+}
 
-	x = (t_philosopher *)philosopher;
-	if (x->id % 2)
+void	*life(void *socrate)
+{
+	t_philo	*x;
+
+	x = (t_philo *)socrate;
+	if (x->id % 2 && !x->table->is_somebody_dead)
 		eating(x);
-	while (1)
+	while (!x->table->is_somebody_dead)
 	{
-		sleeping(x);
+		if (!x->table->is_somebody_dead)
+			sleeping(x);
 		thinking(x);
 		eating(x);
 	}
-}
-
-void put_message(unsigned int id, char *message, t_info	*table)
-{
-	pthread_mutex_lock(&table->message);
-	printf("%-5lu  %u  %s", table_time(table->start_time), id, message);
-	pthread_mutex_unlock(&table->message);
 }
