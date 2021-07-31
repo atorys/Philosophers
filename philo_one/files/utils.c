@@ -7,7 +7,8 @@ int	error_case(char *message)
 	i = 0;
 	while (message[i])
 		i++;
-	return ((int)write(2, message, i));
+//	write(2, message, i);
+	return (-1);
 }
 
 int	valid_args(int argc, char **argv)
@@ -21,7 +22,7 @@ int	valid_args(int argc, char **argv)
 		index = -1;
 		if (argc == 1 && ft_atoi(argv[argc]) > 200)
 			return (error_case("\033[0;33mToo many philosophers ;(\n"));
-		if (ft_atoi(argv[argc]) > 2147483647 || ft_atoi(argv[argc]) == 0)
+		if (ft_atoi(argv[argc]) > 4294967296 || ft_atoi(argv[argc]) == 0)
 			return (error_case("\033[0;33m Invalid arguments ;(\n"));
 		while (argv[argc][++index])
 			if (!(argv[argc][index] >= '0' && argv[argc][index] <= '9'))
@@ -55,13 +56,3 @@ unsigned long	current_time(void)
 	return ((unsigned long)(time.tv_sec * 1000 + time.tv_usec / 1000));
 }
 
-void	put_message(unsigned int id, char *message, t_process	*table, char *color)
-{
-	pthread_mutex_lock(&table->message);
-	printf("%-5lu  %s%u\033[0m  %5s", current_time() - table->start_time, color, id, message);
-//	printf("%s%-5lu  %u  %5s", color, current_time() - table->start_time, id, message);
-	if (!table->is_somebody_dead)
-		pthread_mutex_unlock(&table->message);
-	else
-		printf("hey stop printing bitch");
-}

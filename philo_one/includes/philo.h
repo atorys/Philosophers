@@ -23,12 +23,13 @@ time_to_die  time_to_eat  time_to_sleep  number_of_times_each_philo_must_eat\n"
 # define UNLOCK_ERROR	"\033[0;31mPthread_mutex_unlock() failed.\n"
 # define LOCK_ERROR		"\033[0;31mPthread_mutex_lock() failed.\n"
 
-# define	TAKEFORKL	" has taken a left fork\n"
-# define	TAKEFORKR	" has taken a right fork\n"
-# define	EAT			" is eating\n"
-# define	SLEEP		" is sleeping\n"
-# define	THINK		" is thinking\n"
-# define	DIE			" \033[0;41mdied.\033[0m\n"
+# define	TAKEFORK	"has taken a fork\n"
+//# define	TAKEFORKL	"has taken a left fork"
+//# define	TAKEFORKR	"has taken a right fork"
+# define	EAT			"is eating\n"
+# define	SLEEP		"is sleeping\n"
+# define	THINK		"is thinking\n"
+# define	DIE			"died\n"
 
 /*
  * ------------------------------  STRUCTURES  ---------------------------------
@@ -109,6 +110,7 @@ long long		ft_atoi(const char *str);
 int				error_case(char *message);
 int				valid_args(int argc, char **argv);
 void			put_message(unsigned int id, char *message, t_process	*table, char *color);
+char			*get_number(unsigned long timestamp);
 
 /*
  * ---------------------------  TIME MANAGEMENT  ------------------------------
