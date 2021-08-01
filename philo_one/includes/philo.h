@@ -80,7 +80,8 @@ typedef struct s_philosopher
  * @param forks:		list of mutex_t's size of philosophers' number
  *
  * @param message:				mutex_t for printing each philosopher's status
- * @param observer: 			pthread which checks how deadly each philosopher is and how many times
+ * @param observer: 			pthread which checks how deadly each
+ * 								philosopher is and how many times
  * @param is_somebody_dead:		check for observer's end
  * @param are_threads_ready:	check for observer's start
  */
@@ -98,7 +99,7 @@ struct s_process
 	pthread_mutex_t	*forks;
 
 	pthread_mutex_t	message;
-	pthread_t 		observer;
+	pthread_t		observer;
 	bool			is_somebody_dead;
 	bool			are_threads_ready;
 };
@@ -110,7 +111,8 @@ struct s_process
 long long		ft_atoi(const char *str);
 int				error_case(const char *message);
 int				valid_args(int argc, char **argv);
-void			writecall(unsigned int id, const char *message, t_process	*table);
+void			writecall(unsigned int id, const char *message, \
+						  								t_process *table);
 
 /*
  * ---------------------------  TIME MANAGEMENT  ------------------------------

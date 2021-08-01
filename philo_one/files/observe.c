@@ -3,7 +3,7 @@
 void	*observe(void *thread)
 {
 	t_process		*table;
-	unsigned int 	index;
+	unsigned int	index;
 	unsigned int	plates_check;
 
 	table = (t_process *)thread;
