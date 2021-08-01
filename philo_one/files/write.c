@@ -1,84 +1,51 @@
 #include "../includes/philo.h"
 
-size_t	ft_strlen(const char *s)
+unsigned int	str_join_nbr(unsigned int start, char *str, unsigned long nbr)
 {
-	size_t	len;
+	unsigned long	temp_nbr;
+	size_t			length;
+	size_t			end;
 
-	len = 0;
-	while (*s++)
-		len++;
-	return (len);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char			*result;
-	char			*temp;
-	unsigned int	i;
-
-	if (!s2)
-		return (NULL);
-	temp = (char *)s1;
-	i = 0;
-	result = malloc(sizeof(int) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!result)
-		return (NULL);
-	while (*s1)
-		result[i++] = (char)*s1++;
-	while (*s2)
-		result[i++] = (char)*s2++;
-	result[i] = '\0';
-	free(temp);
-	return (result);
-}
-
-char	*get_number(unsigned long timestamp)
-{
-	char			*timeline;
-	unsigned long 	temp;
-	size_t 			length;
-
-	temp = timestamp;
 	length = 0;
-	if (temp == 0)
+	temp_nbr = nbr;
+	if (temp_nbr == 0)
 		length++;
-	while (temp != 0 && ++length)
-		temp /= 10;
-	timeline = malloc(sizeof(char) * length + 2);
-	if (!timeline)
-		return (NULL);
-	timeline[length + 1] = '\0';
-	timeline[length] = ' ';
-	if (timestamp == 0)
-		timeline[0] = '0';
-	while (timestamp > 0)
+	while (temp_nbr != 0 && ++length)
+		temp_nbr /= 10;
+	end = start + length;
+	if (nbr == 0)
+		str[start] = '0';
+	while (length-- >= 0 && nbr > 0)
 	{
-		timeline[--length] = (char)(timestamp % 10 + '0');
-		timestamp /= 10;
+		str[start + length] = (char)(nbr % 10 + '0');
+		nbr /= 10;
 	}
-	return (&timeline[0]);
+	return (end);
 }
 
-void	put_message(unsigned int id, char *message, t_process	*table, char *color)
+/**
+ * string concatenation for one write() call
+ * @param id:		philosopher's number
+ * @param message:	one of 5 possible actions
+ * @param table:	main structure
+ */
+void	writecall(unsigned int id, const char *message, t_process	*table)
 {
-	char			*status;
-	char			*number;
+	char			status[100];
 	unsigned int	length;
 	unsigned int	i;
 
 	pthread_mutex_lock(&table->message);
+	usleep(500);
+	length = str_join_nbr(0, &status[0], current_time() - table->start_point);
+	status[length++] = ' ';
+	length = str_join_nbr(length, &status[0], id);
+	status[length++] = ' ';
 	i = -1;
-	length = 0;
-	usleep(10);
-	status = get_number(current_time() - table->start_time);
-//	if (!status)
-//		return (NULL);
-	status = ft_strjoin(status, get_number(id));
-	status = ft_strjoin(status, message);
-	write(1, status, ft_strlen(status));
-	free(status);
-//	printf("%s%lu  %u  %s\033[0m\n", color, current_time() - table->start_time, id, message);
-//	printf("%lu %u %s\n", current_time() - table->start_time, id, message);
+	while (message[++i])
+		status[length++] = message[i];
+	status[length] = '\n';
+	write(1, status, length);
 	if (!table->is_somebody_dead)
 		pthread_mutex_unlock(&table->message);
 }

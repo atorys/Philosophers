@@ -1,14 +1,14 @@
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
-int	error_case(char *message)
+int	error_case(const char *message)
 {
 	int	i;
 
 	i = 0;
 	while (message[i])
 		i++;
-//	write(2, message, i);
-	return (-1);
+	write(2, message, i);
+	return (1);
 }
 
 int	valid_args(int argc, char **argv)
@@ -55,4 +55,3 @@ unsigned long	current_time(void)
 	gettimeofday(&time, NULL);
 	return ((unsigned long)(time.tv_sec * 1000 + time.tv_usec / 1000));
 }
-

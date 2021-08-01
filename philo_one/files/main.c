@@ -1,42 +1,19 @@
 #include "../includes/philo.h"
 
-void	*check(void *thread)
-{
-	t_process		*table;
-	unsigned int 	n;
-
-	table = (t_process *)thread;
-	while (!table->are_threads_ready)
-		usleep(100);
-	n = 0;
-	while (n < table->number && !table->is_somebody_dead)
-	{
-		if (current_time() - table->socrates[n++].save_point > table->time2die)
-		{
-			table->is_somebody_dead = true;
-			put_message(n, DIE, table, "\033[0;31m");
-			return (NULL);
-		}
-		if (n == table->number)
-			n = 0;
-	}
-}
-
 static	void	run_threads(t_process *table)
 {
-	int	n;
+	int	index;
 
-	table->start_time = current_time();
-	n = -1;
-	while (++n < table->number)
+	table->start_point = current_time();
+	pthread_create(&table->observer, NULL, observe, table);
+	index = -1;
+	while (++index < table->number)
 	{
-		table->socrates[n].save_point = current_time();
-		table->socrates[n].start_point = table->socrates[n].save_point;
-		pthread_create(&table->socrates[n].thread, NULL, life, \
-											&table->socrates[n]);
+		table->socrates[index].save_point = current_time();
+		pthread_create(&table->socrates[index].thread, NULL, life, \
+											&table->socrates[index]);
 	}
 	table->are_threads_ready = true;
-	pthread_create(&table->observer, NULL, check, table);
 	pthread_join(table->observer, NULL);
 }
 
@@ -51,7 +28,5 @@ int	main(int argc, char **argv)
 	if (!forks_on_table(&table))
 		return (error_case(MUTEXERROR));
 	run_threads(&table);
-//	printf("%s\n", get_number(12345));
-//	put_message(2, EAT, &table, 23433);
 	return (0);
 }

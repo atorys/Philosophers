@@ -47,7 +47,6 @@ typedef struct s_process	t_process;
  * @param fork_right:	pointer to mutex_t N
  *
  * @param save_point:	last time philosopher called eating()
- * @param start_point:	time when thread was created with pthread_create()
  * @param plates_was_eaten: eating() calls
  *
  * @param table:		pointer to main structure
@@ -61,7 +60,6 @@ typedef struct s_philosopher
 	pthread_mutex_t		*fork_right;
 
 	unsigned long		save_point;
-	unsigned long		start_point;
 	unsigned int		plates_was_eaten;
 
 	t_process			*table;
@@ -76,12 +74,15 @@ typedef struct s_philosopher
  * @param [input] time2sleep:	sleeping time
  * @param [input] times_eating:	each philosopher should eat at least X times
  *
- * @param start_time:			the moment when simulation has started
+ * @param start_point:	the moment when simulation has started
  *
- * @param socrates:				list of t_philo structure
- * @param forks:				list of mutex_t's size of philosophers' number
+ * @param socrates:		list of t_philo structure
+ * @param forks:		list of mutex_t's size of philosophers' number
+ *
  * @param message:				mutex_t for printing each philosopher's status
- * @param death_check: 			????
+ * @param observer: 			pthread which checks how deadly each philosopher is and how many times
+ * @param is_somebody_dead:		check for observer's end
+ * @param are_threads_ready:	check for observer's start
  */
 struct s_process
 {
@@ -91,7 +92,7 @@ struct s_process
 	unsigned int	time2sleep;
 	unsigned int	times_eating;
 
-	unsigned long	start_time;
+	unsigned long	start_point;
 
 	t_philo			*socrates;
 	pthread_mutex_t	*forks;
@@ -107,10 +108,9 @@ struct s_process
  */
 
 long long		ft_atoi(const char *str);
-int				error_case(char *message);
+int				error_case(const char *message);
 int				valid_args(int argc, char **argv);
-void			put_message(unsigned int id, char *message, t_process	*table, char *color);
-char			*get_number(unsigned long timestamp);
+void			writecall(unsigned int id, const char *message, t_process	*table);
 
 /*
  * ---------------------------  TIME MANAGEMENT  ------------------------------
@@ -125,5 +125,6 @@ unsigned long	current_time(void);
 int				init_threads_and_forks(t_process *table, int i, char **argv);
 int				forks_on_table(t_process	*table);
 void			*life(void *socrate);
+void			*observe(void *thread);
 
 #endif

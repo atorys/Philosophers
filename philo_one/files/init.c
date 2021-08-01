@@ -1,5 +1,8 @@
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
+/**
+ * input instructions
+ */
 static void	set_parameters(t_process *table, int argc, char **argv)
 {
 	table->number = (unsigned int)ft_atoi(argv[1]);
@@ -14,6 +17,15 @@ static void	set_parameters(t_process *table, int argc, char **argv)
 	table->are_threads_ready = false;
 }
 
+/**
+ * @title STEP 1:	set common instructions from input
+ * @title STEP 2:	malloc lists of philosophers && forks
+ * @title STEP 3:	set individual parameters
+ *
+ * @param table:	structure with 1..N philosophers and 1..N forks
+ * @return 0:	malloc() error
+ * @return 1:	success
+ */
 int	init_threads_and_forks(t_process *table, int index, char **argv)
 {
 	set_parameters(table, index, argv);
@@ -36,6 +48,17 @@ int	init_threads_and_forks(t_process *table, int index, char **argv)
 	return (1);
 }
 
+/**
+ * @title Initialization of mutexes for each fork;
+ * @title	+ one mutex aka fork per philosopher
+ * @title	+ fork_right belongs to philosopher[n]
+ * @title	+ fork_left belongs to philosopher[n + 1]
+ *
+ * @param table:	structure with 1..N philosophers and 1..N forks
+ *
+ * @return 0:		pthread_mutex_init() error
+ * @return 1:		success
+ */
 int	forks_on_table(t_process *table)
 {
 	int	index;

@@ -11,8 +11,9 @@ HEADERS	=	philo.h
 #--------------------FILES--------------------------/
 
 FILES =		main.c \
-			initialization.c \
+			init.c \
 			life.c \
+			observe.c \
 			utils.c \
 			write.c
 O_FILES = 	$(addprefix objects/, $(FILES:.c=.o))
@@ -33,7 +34,7 @@ P = 		"\\"
 all	:		$(NAME)
 
 $(NAME) :	objects $(O_FILES)
-			@$(CC) $(FLAGS) $(O_FILES) -o philo_one # todo: rename
+			@$(CC) $(FLAGS) $(O_FILES) -o philo_one #$(NAME)  todo: rename
 			@clear ; echo "$(WHITE);1m\n                                   compiling"; sleep 0.2; clear; echo "\n                                   compiling ."; sleep 0.2 ;clear ; echo "\n                                   compiling . . "; sleep 0.2; clear ; echo "\n                                   compiling . . .\n"; sleep 0.8;
 			@echo "$(W);1m               /\        /\                            /\  ";
 			@echo "       ___    / /_      / / ___    ____  ___   ___    / /_   ____  ___     ____ ";

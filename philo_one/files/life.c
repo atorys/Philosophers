@@ -1,28 +1,29 @@
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 static void	eating(t_philo *x)
 {
 	if (x->id % 2)
 	{
 		pthread_mutex_lock(x->fork_right);
-		put_message(x->id, TAKEFORK, x->table, "\033[30;48;2;248;130;55m");
+		writecall(x->id, TAKEFORK, x->table);
 		pthread_mutex_lock(x->fork_left);
-		put_message(x->id, TAKEFORK, x->table, "\033[30;48;2;184;140;230m");
+		writecall(x->id, TAKEFORK, x->table);
 	}
 	else
 	{
 		pthread_mutex_lock(x->fork_left);
-		put_message(x->id, TAKEFORK, x->table, "\033[30;48;2;184;140;230m");
+		writecall(x->id, TAKEFORK, x->table);
 		pthread_mutex_lock(x->fork_right);
-		put_message(x->id, TAKEFORK, x->table, "\033[30;48;2;248;130;55m");
+		writecall(x->id, TAKEFORK, x->table);
 	}
 	x->save_point = current_time();
-	put_message(x->id, EAT, x->table, "\033[30;48;2;167;183;65m");
-	while (!x->table->is_somebody_dead && current_time() - x->save_point <= x->table->time2eat)
+	writecall(x->id, EAT, x->table);
+	while (!x->table->is_somebody_dead && \
+	current_time() - x->save_point <= x->table->time2eat)
 	{
 		if (current_time() - x->save_point > x->table->time2die)
 			x->table->is_somebody_dead = true;
-		usleep(100);
+		usleep(300);
 	}
 	x->plates_was_eaten++;
 	if (x->id % 2)
@@ -42,20 +43,15 @@ static void	sleeping(t_philo *x)
 	unsigned long	pseudosleep;
 
 	pseudosleep = current_time();
-	put_message(x->id, SLEEP, x->table, "\033[30;48;2;240;130;200m");
-	while (!x->table->is_somebody_dead && current_time() - pseudosleep <= x->table->time2sleep)
+	writecall(x->id, SLEEP, x->table);
+	while (!x->table->is_somebody_dead && \
+	current_time() - pseudosleep <= x->table->time2sleep)
 	{
 		if (current_time() - x->save_point > x->table->time2die)
 			x->table->is_somebody_dead = true;
 		usleep(300);
 	}
 }
-
-//static void	thinking(t_philo *x)
-//{
-//	if (!x->table->is_somebody_dead)
-//		put_message(x->id, THINK, x->table, "\033[30;48;2;100;160;187m");
-//}
 
 void	*life(void *socrate)
 {
@@ -70,6 +66,6 @@ void	*life(void *socrate)
 		if (!x->table->is_somebody_dead)
 			sleeping(x);
 		if (!x->table->is_somebody_dead)
-			put_message(x->id, THINK, x->table, "\033[30;48;2;100;160;187m");
+			writecall(x->id, THINK, x->table);
 	}
 }
