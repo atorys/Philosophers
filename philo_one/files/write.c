@@ -34,10 +34,10 @@ void	writecall(unsigned int id, const char *message, t_process	*table)
 	char			status[100];
 	unsigned int	length;
 	unsigned int	i;
+	long long		tt;
 
-	pthread_mutex_lock(&table->message);
-	usleep(500);
-	length = str_join_nbr(0, &status[0], current_time() - table->start_point);
+	tt = current_time() - table->start_point;
+	length = str_join_nbr(0, &status[0], (unsigned long)tt);
 	status[length++] = ' ';
 	length = str_join_nbr(length, &status[0], id);
 	status[length++] = ' ';
@@ -45,7 +45,11 @@ void	writecall(unsigned int id, const char *message, t_process	*table)
 	while (message[++i])
 		status[length++] = message[i];
 	status[length] = '\n';
-	write(1, status, length);
-	if (!table->is_somebody_dead)
+	pthread_mutex_lock(&table->message);
+	if (tt >= 0)
+		write(1, status, length);
+	if (message != DIE)
 		pthread_mutex_unlock(&table->message);
+	else
+		table->is_somebody_dead = true;
 }

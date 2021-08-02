@@ -14,7 +14,6 @@ static void	set_parameters(t_process *table, int argc, char **argv)
 	else
 		table->times_eating = 0;
 	table->is_somebody_dead = false;
-	table->are_threads_ready = false;
 }
 
 /**
@@ -41,7 +40,7 @@ int	init_threads_and_forks(t_process *table, int index, char **argv)
 		if (table->times_eating != 0)
 			table->socrates[index].plates_was_eaten = 0;
 		else
-			table->socrates[index].plates_was_eaten = -1;
+			table->socrates[index].plates_was_eaten = -999;
 		table->socrates[index].table = table;
 	}
 	table->observer = NULL;

@@ -7,8 +7,9 @@ int	error_case(const char *message)
 	i = 0;
 	while (message[i])
 		i++;
+	write(2, ERR_COLOR, 7);
 	write(2, message, i);
-	return (1);
+	return (-1);
 }
 
 int	valid_args(int argc, char **argv)
@@ -16,17 +17,17 @@ int	valid_args(int argc, char **argv)
 	int	index;
 
 	if (argc != 5 && argc != 6)
-		return (0);
+		return (error_case(HELP));
 	while (argv[--argc] && argc > 0)
 	{
 		index = -1;
 		if (argc == 1 && ft_atoi(argv[argc]) > 200)
-			return (error_case("\033[0;33mToo many philosophers ;(\n"));
-		if (ft_atoi(argv[argc]) > 4294967296 || ft_atoi(argv[argc]) == 0)
-			return (error_case("\033[0;33m Invalid arguments ;(\n"));
+			return (error_case("Too many philosophers ;(\n"));
+		if (ft_atoi(argv[argc]) > 2147483647 || ft_atoi(argv[argc]) == 0)
+			return (error_case("Invalid arguments ;(\n"));
 		while (argv[argc][++index])
 			if (!(argv[argc][index] >= '0' && argv[argc][index] <= '9'))
-				return (error_case("\033[0;33mTry another parameters ;(\n"));
+				return (error_case("Try another parameters ;(\n"));
 	}
 	return (1);
 }

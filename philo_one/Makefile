@@ -34,7 +34,7 @@ P = 		"\\"
 all	:		$(NAME)
 
 $(NAME) :	objects $(O_FILES)
-			@$(CC) $(FLAGS) $(O_FILES) -o philo_one #$(NAME)  todo: rename
+			@$(CC) $(FLAGS) $(O_FILES) -o $(NAME)
 			@clear ; echo "$(WHITE);1m\n                                   compiling"; sleep 0.2; clear; echo "\n                                   compiling ."; sleep 0.2 ;clear ; echo "\n                                   compiling . . "; sleep 0.2; clear ; echo "\n                                   compiling . . .\n"; sleep 0.8;
 			@echo "$(W);1m               /\        /\                            /\  ";
 			@echo "       ___    / /_      / / ___    ____  ___   ___    / /_   ____  ___     ____ ";
@@ -48,20 +48,23 @@ $(NAME) :	objects $(O_FILES)
 
 
 objects :
-			@mkdir $@
+				@mkdir $@
 
 objects/%.o :	%.c $(HEADERS)
-			    gcc $(FLAGS) -I $(INCLUDES) -c $< -o $@
+				gcc $(FLAGS) -I $(INCLUDES) -c $< -o $@
+
+love :
+				@echo "do"
 
 
 #-------CLEAN
 
 clean :
-			@rm -rf objects/
-			@echo "removing [objects]"
+				@rm -rf objects/
+				@echo "removing [objects]"
 
-fclean :	clean
-			@rm -f $(NAME)
-			@echo "removing [philo]"
+fclean :		clean
+				@rm -f $(NAME)
+				@echo "removing [philo]"
 
-re :        fclean all
+re :        	fclean all

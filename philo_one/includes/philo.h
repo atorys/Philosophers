@@ -18,14 +18,11 @@
 # define HELP "\033[0;33mError!!!\nTry this: \033[0;39m./philo  number_of_philosophers  \
 time_to_die  time_to_eat  time_to_sleep  number_of_times_each_philo_must_eat\n"
 
+# define ERR_COLOR		"\033[0;33m"
 # define MALLOCERROR	"\033[0;31mMalloc failed.\n"
 # define MUTEXERROR		"\033[0;31mPthread_mutex_init() failed.\n"
-# define UNLOCK_ERROR	"\033[0;31mPthread_mutex_unlock() failed.\n"
-# define LOCK_ERROR		"\033[0;31mPthread_mutex_lock() failed.\n"
 
 # define	TAKEFORK	"has taken a fork\n"
-//# define	TAKEFORKL	"has taken a left fork"
-//# define	TAKEFORKR	"has taken a right fork"
 # define	EAT			"is eating\n"
 # define	SLEEP		"is sleeping\n"
 # define	THINK		"is thinking\n"
@@ -101,7 +98,6 @@ struct s_process
 	pthread_mutex_t	message;
 	pthread_t		observer;
 	bool			is_somebody_dead;
-	bool			are_threads_ready;
 };
 
 /*
@@ -126,6 +122,7 @@ unsigned long	current_time(void);
 
 int				init_threads_and_forks(t_process *table, int i, char **argv);
 int				forks_on_table(t_process	*table);
+void			run_threads(t_process *table);
 void			*life(void *socrate);
 void			*observe(void *thread);
 
